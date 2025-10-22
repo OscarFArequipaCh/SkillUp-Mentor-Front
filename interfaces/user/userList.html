@@ -1,0 +1,30 @@
+<section>
+  <h2>Gestión de Usuarios</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="user-table-body"></tbody>
+  </table>
+
+  <h3>Registrar nuevo usuario</h3>
+  <form id="user-form">
+    <input type="text" id="name" placeholder="Nombre completo" required />
+    <input type="email" id="email" placeholder="Correo electrónico" required />
+    <select id="role" required>
+      <option value="">Selecciona un rol</option>
+      <option value="mentor">Mentor</option>
+      <option value="apprentice">Aprendiz</option>
+      <option value="admin">Administrador</option>
+    </select>
+    <input type="password" id="password" placeholder="Contraseña" required />
+    <button type="submit">Crear Usuario</button>
+  </form>
+</section>

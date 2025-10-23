@@ -1,9 +1,8 @@
 export class Chat {
-  constructor(id, message, timestamp, id_user, id_mentor) {
+  constructor(id, id_sender, id_receiver, created_at) {
     this.id = id;
-    this.message = message;
-    this.timestamp = timestamp;
-    this.id_user = id_user;
-    this.id_mentor = id_mentor;
+    this.id_sender = id_sender;
+    this.id_receiver = id_receiver;
+    this.created_at = created_at;
   }
 }

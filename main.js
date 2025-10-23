@@ -5,22 +5,24 @@ nav.innerHTML = `
   <button id="nav-chat">💬 Chats</button>
   <button id="nav-user">👤 Usuarios</button>
 `;
-
-// 🔧 Cambiado insertBefore → appendChild
 document.body.appendChild(nav);
 
-async function cargarVista(ruta) {
+async function cargarVista(ruta, funcionRender) {
   container.innerHTML = "<p>Cargando...</p>";
-  await import(ruta);
+
+  // Importa el módulo y ejecuta su función de renderizado
+  const modulo = await import(ruta);
+  container.innerHTML = ""; // limpia antes de renderizar
+  modulo[funcionRender](container); // llama a la función exportada
 }
 
 document.getElementById("nav-chat").addEventListener("click", () =>
-  cargarVista("./interfaces/chat/chatList.js")
+  cargarVista("./interfaces/chats/chatList.js", "renderChatList")
 );
 
 document.getElementById("nav-user").addEventListener("click", () =>
-  cargarVista("./interfaces/user/userList.js")
+  cargarVista("./interfaces/user/userList.js", "renderUserList")
 );
 
 // Vista inicial
-cargarVista("./interfaces/user/userList.js");
+cargarVista("./interfaces/chats/chatList.js", "renderChatList");

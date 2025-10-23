@@ -9,12 +9,12 @@ export class ChatService {
   async listarChats() {
     const data = await this.repo.getAll();
     return data.map(
-      (c) => new Chat(c.id, c.message, c.timestamp, c.id_user, c.id_mentor)
+      (c) => new Chat(c.id, c.id_sender, c.id_receiver, c.created_at)
     );
   }
 
-  async crearChat(message, id_user, id_mentor) {
-    const nuevo = new Chat(null, message, new Date().toISOString(), id_user, id_mentor);
+  async crearChat(id_sender, id_receiver) {
+    const nuevo = new Chat(null, id_sender, id_receiver);
     return await this.repo.create(nuevo);
   }
 }

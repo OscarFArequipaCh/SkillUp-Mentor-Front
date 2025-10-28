@@ -15,7 +15,19 @@ export class UserRepository {
     return await res.json();
   }
 
+  async authentcate(dataUser) {
+    console.log("Authenticating user with data:", dataUser);
+    const res = await fetch(`${this.apiUrl}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataUser),
+    });
+    if (!res.ok) throw new Error("Error de autenticación");
+    return await res.json();
+  }
+
   async create(user) {
+    console.log("Authenticating user with data:", user);
     const res = await fetch(this.apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

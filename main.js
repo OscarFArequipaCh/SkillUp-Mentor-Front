@@ -16,6 +16,10 @@ async function cargarVista(ruta, funcionRender) {
   modulo[funcionRender](container); // llama a la función exportada
 }
 
+document.getElementById("button-login").addEventListener("click", () =>
+  cargarVista("./interfaces/login/login.js", "renderLogin")
+);
+
 document.getElementById("nav-chat").addEventListener("click", () =>
   cargarVista("./interfaces/chats/chatList.js", "renderChatList")
 );

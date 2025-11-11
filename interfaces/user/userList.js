@@ -9,7 +9,7 @@ export async function renderUserList(container) {
   const tbody = document.getElementById("user-table-body");
   const form = document.getElementById("user-form");
 
-  async function cargarUsuarios() {
+  async function loadUser() {
     try {
       const users = await userService.listarUsuarios();
       tbody.innerHTML = users
@@ -29,8 +29,8 @@ export async function renderUserList(container) {
         btn.addEventListener("click", async (e) => {
           const id = e.target.getAttribute("data-id");
           if (confirm("¿Seguro que quieres eliminar este usuario?")) {
-            await userService.eliminarUsuario(id);
-            await cargarUsuarios();
+            await userService.deleteUser(id);
+            await loadUser();
           }
         });
       });
@@ -46,15 +46,16 @@ export async function renderUserList(container) {
     const email = document.getElementById("email").value;
     const role = document.getElementById("role").value;
     const password = document.getElementById("password").value;
+    const photo = document.getElementById("photo").files[0]; // ✅ Nuevo
 
     try {
-      await userService.crearUsuario(name, email, role, password);
+      await userService.createUser(name, email, role, password, photo);
       form.reset();
-      await cargarUsuarios();
+      await loadUser();
     } catch (err) {
       alert("Error al crear usuario: " + err.message);
     }
   });
 
-  cargarUsuarios();
+  loadUser();
 }

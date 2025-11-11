@@ -26,13 +26,12 @@ export class UserRepository {
     return await res.json();
   }
 
-  async create(user) {
-    console.log("Authenticating user with data:", user);
+  async create(userFormData) {
     const res = await fetch(this.apiUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      body: userFormData, // ✅ Sin headers
     });
+
     if (!res.ok) throw new Error("Error al crear usuario");
     return await res.json();
   }

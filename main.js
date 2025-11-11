@@ -4,6 +4,7 @@ const nav = document.createElement("nav");
 nav.innerHTML = `
   <button id="nav-chat">💬 Chats</button>
   <button id="nav-user">👤 Usuarios</button>
+  <button id="nav-apprentice">🎓 Aprendices</button>
 `;
 document.body.appendChild(nav);
 
@@ -26,6 +27,10 @@ document.getElementById("nav-chat").addEventListener("click", () =>
 
 document.getElementById("nav-user").addEventListener("click", () =>
   cargarVista("./interfaces/user/userList.js", "renderUserList")
+);
+
+document.getElementById("nav-apprentice").addEventListener("click", () =>
+  cargarVista("./interfaces/user/apprenticeList.js", "renderApprenticeList")
 );
 
 // Vista inicial

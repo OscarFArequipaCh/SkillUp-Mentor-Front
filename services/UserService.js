@@ -28,15 +28,26 @@ export class UserService {
     
   }
 
-  async crearUsuario(name, email, role, password) {
+  async createUser(name, email, role, password, photoFile) {
     if (!name || !email || !role || !password) {
       throw new Error("Todos los campos son obligatorios");
     }
-    const nuevo = new User(null, name, email, role, password);
-    return await this.repo.create(nuevo);
+    //const nuevo = new User(null, name, email, role, password);
+    //return await this.repo.create(nuevo);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("role", role);
+    formData.append("password", password);
+
+    if (photoFile) {
+      formData.append("photo", photoFile);
+    }
+
+    return await this.repo.create(formData);
   }
 
-  async eliminarUsuario(id) {
+  async deleteUser(id) {
     return await this.repo.delete(id);
   }
 }

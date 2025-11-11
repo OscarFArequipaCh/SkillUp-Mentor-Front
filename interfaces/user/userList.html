@@ -15,7 +15,7 @@
   </table>
 
   <h3>Registrar nuevo usuario</h3>
-  <form id="user-form">
+  <form id="user-form" enctype="multipart/form-data">
     <input type="text" id="name" placeholder="Nombre completo" required />
     <input type="email" id="email" placeholder="Correo electrónico" required />
     <select id="role" required>
@@ -25,6 +25,7 @@
       <option value="admin">Administrador</option>
     </select>
     <input type="password" id="password" placeholder="Contraseña" required />
+    <input type="file" id="photo" accept="image/*" />
     <button type="submit">Crear Usuario</button>
   </form>
 </section>

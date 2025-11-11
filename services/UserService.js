@@ -6,48 +6,59 @@ export class UserService {
     this.repo = new UserRepository();
   }
 
-  async listarUsuarios() {
-    const data = await this.repo.getAll();
-    return data.map((u) => new User(u.id, u.name, u.email, u.role, u.password));
+  saveSession(token, user) {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("authUser", JSON.stringify(user));
   }
 
-  async authenticateUser(email, password){
-    if(!email || !password){
-      throw new Error("Email y contraseña son obligatorios");
-    }
-    //const loginData = { email, password };
-    //const authenticatedUser = await this.repo.authentcate(loginData);
-    //return authenticatedUser;
-    const authenticatedUser = await this.repo.authentcate({ email, password });
-    console.log(authenticatedUser);
-    return authenticatedUser; // devuelve JSON correcto del backend
+  clearSession() {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
+  }
 
-    //const authenticateUser = new User(null, null, email, null, password);
-    
-    //return await this.repo.authentcate(authenticateUser);
-    
+  getAuthUser() {
+    const u = localStorage.getItem("authUser");
+    return u ? JSON.parse(u) : null;
+  }
+
+  getAuthToken() {
+    return localStorage.getItem("authToken");
+  }
+
+  isAuthenticated() {
+    return !!this.getAuthToken();
+  }
+
+  async authenticateUser(email, password) {
+    const authenticated = await this.repo.authenticate({ email, password });
+    this.saveSession(authenticated.token, authenticated.user);
+    return authenticated.user;
+  }
+
+  async listarUsuarios() {
+    const token = this.getAuthToken();
+    const data = await this.repo.getAll(token);
+    return data.map((u) => new User(u.id, u.name, u.email, u.role, null));
   }
 
   async createUser(name, email, role, password, photoFile) {
-    if (!name || !email || !role || !password) {
-      throw new Error("Todos los campos son obligatorios");
-    }
-    //const nuevo = new User(null, name, email, role, password);
-    //return await this.repo.create(nuevo);
+    const token = this.getAuthToken();
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
     formData.append("role", role);
     formData.append("password", password);
-
     if (photoFile) {
       formData.append("photo", photoFile);
     }
 
-    return await this.repo.create(formData);
+    return await this.repo.create(formData, token);
   }
 
   async deleteUser(id) {
-    return await this.repo.delete(id);
+    const token = this.getAuthToken();
+    return await this.repo.delete(id, token);
   }
 }
+

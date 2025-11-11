@@ -3,20 +3,15 @@ export class UserRepository {
     this.apiUrl = "http://localhost:3000/api/users";
   }
 
-  async getAll() {
-    const res = await fetch(this.apiUrl);
-    if (!res.ok) throw new Error("Error al obtener usuarios");
+  async getAll(token) {
+    const res = await fetch(this.apiUrl, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error("No autorizado");
     return await res.json();
   }
 
-  async getById(id) {
-    const res = await fetch(`${this.apiUrl}/${id}`);
-    if (!res.ok) throw new Error("Usuario no encontrado");
-    return await res.json();
-  }
-
-  async authentcate(dataUser) {
-    console.log("Authenticating user with data:", dataUser);
+  async authenticate(dataUser) {
     const res = await fetch(`${this.apiUrl}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -26,29 +21,22 @@ export class UserRepository {
     return await res.json();
   }
 
-  async create(userFormData) {
+  async create(userFormData, token) {
     const res = await fetch(this.apiUrl, {
       method: "POST",
-      body: userFormData, // ✅ Sin headers
+      body: userFormData,
+      headers: { Authorization: `Bearer ${token}` },
     });
-
-    if (!res.ok) throw new Error("Error al crear usuario");
+    if (!res.ok) throw new Error("No autorizado - Crear usuario");
     return await res.json();
   }
 
-  async update(id, user) {
+  async delete(id, token) {
     const res = await fetch(`${this.apiUrl}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
     });
-    if (!res.ok) throw new Error("Error al actualizar usuario");
-    return await res.json();
-  }
-
-  async delete(id) {
-    const res = await fetch(`${this.apiUrl}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error("Error al eliminar usuario");
+    if (!res.ok) throw new Error("No autorizado - Eliminar usuario");
     return await res.json();
   }
 }

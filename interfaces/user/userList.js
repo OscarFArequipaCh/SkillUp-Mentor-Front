@@ -11,12 +11,13 @@ export async function renderUserList(container) {
 
   async function loadUser() {
     try {
-      const users = await userService.listarUsuarios();
+      const users = await userService.listUsers();
       tbody.innerHTML = users
         .map(
           (u) => `
           <tr>
             <td>${u.id}</td>
+            <td><img src="${u.photo}" alt="Foto de ${u.name}" width="50" height="50"></td>
             <td>${u.name}</td>
             <td>${u.email}</td>
             <td>${u.role}</td>
@@ -24,7 +25,7 @@ export async function renderUserList(container) {
           </tr>`
         )
         .join("");
-
+        //console.log(u.photo);
       document.querySelectorAll(".delete-btn").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const id = e.target.getAttribute("data-id");

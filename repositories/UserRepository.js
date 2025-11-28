@@ -1,6 +1,16 @@
 export class UserRepository {
   constructor() {
     this.apiUrl = "http://localhost:3000/api/users";
+    this.SERVER_URL = "http://localhost:3000";
+  }
+
+  normalize(u) {
+    return {
+      ...u,
+      photoUrl: u.photo
+        ? `${this.SERVER_URL}${u.photo}`
+        : "./assets/default-user.png"
+    };
   }
 
   async getAll(token) {
@@ -8,7 +18,9 @@ export class UserRepository {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error("No autorizado");
-    return await res.json();
+
+    const data = await res.json();
+    return data.map(u => this.normalize(u));  // ⬅️ Aquí llamas al helper
   }
 
   async authenticate(dataUser) {

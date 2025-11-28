@@ -35,10 +35,10 @@ export class UserService {
     return authenticated.user;
   }
 
-  async listarUsuarios() {
+  async listUsers() {
     const token = this.getAuthToken();
     const data = await this.repo.getAll(token);
-    return data.map((u) => new User(u.id, u.name, u.email, u.role, null));
+    return data.map((u) => new User(u.id, u.name, u.email, u.role, null, u.photoUrl));
   }
 
   async createUser(name, email, role, password, photoFile) {

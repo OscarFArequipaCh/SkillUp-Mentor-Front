@@ -10,6 +10,9 @@ header, footer {
   color: white;
   text-align: center;
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 main {
@@ -36,4 +39,34 @@ button {
 
 button:hover {
   background-color: #005f8a;
+}
+
+.tableRead {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  border: 1px solid red;
+  background-color: lightcoral;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.tableRead th, .tableRead td {
+    border: 1px solid red;
+    padding: 10px;
+    text-align: center;
+}
+
+.tableRead th {
+    background-color: darkred;
+    color: white;
+}
+
+.tableRead tr:nth-child(even) {
+    background-color: rgb(255, 184, 184);
+}
+
+.tableRead tr:hover {
+    background-color: white;
 }
